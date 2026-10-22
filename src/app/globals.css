@@ -1,0 +1,245 @@
+@import "tailwindcss";
+
+:root {
+  /* Cream paper, ink type, two solid blues (cyan + cobalt). No gradients, no glows. */
+  --bg: #efe8d9;
+  --bg-2: #e6dece;
+  --surface: #f7f2e7;
+  --line: rgba(22, 21, 19, 0.12);
+  --line-2: rgba(22, 21, 19, 0.26);
+  --text: #161513;
+  --muted: #5b564d;
+  --dim: #948d7e;
+  --cyan: #0b9be0;
+  --blue: #1f3fd6;
+  --gutter: clamp(16px, 4vw, 56px);
+}
+
+/* Charcoal sections (and all of Source Mode) */
+.theme-ink,
+html[data-source="on"] {
+  --bg: #161513;
+  --bg-2: #1e1d1a;
+  --surface: #232220;
+  --line: rgba(239, 232, 217, 0.1);
+  --line-2: rgba(239, 232, 217, 0.22);
+  --text: #efe8d9;
+  --muted: #a8a193;
+  --dim: #6e685d;
+  --cyan: #33c3ff;
+  --blue: #4c6bff;
+}
+.theme-ink {
+  background: var(--bg);
+  color: var(--text);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-cyan: var(--cyan);
+  --color-blue: var(--blue);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-jetbrains);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--cyan);
+  color: var(--bg);
+}
+
+/* Archivo's width axis runs 62–125; the display face is the expanded cut. */
+.font-wide {
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+}
+.font-narrow {
+  font-stretch: 75%;
+  font-variation-settings: "wdth" 75;
+}
+
+.mono-label {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.accent {
+  color: var(--cyan);
+}
+.accent-2 {
+  color: var(--blue);
+}
+/* Solid highlighter block behind a word */
+.mark {
+  background: var(--cyan);
+  color: var(--bg);
+  padding: 0 0.14em;
+  margin: 0 -0.04em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.noise::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Corner registration marks on each module */
+.reg {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+}
+.reg::before,
+.reg::after {
+  content: "";
+  position: absolute;
+  background: var(--line-2);
+}
+.reg::before {
+  left: 5px;
+  top: 0;
+  width: 1px;
+  height: 11px;
+}
+.reg::after {
+  top: 5px;
+  left: 0;
+  height: 1px;
+  width: 11px;
+}
+
+/* ---------- Source mode ---------- */
+.code-layer {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+html[data-source="on"] .code-layer {
+  opacity: 1;
+}
+html[data-source="on"] .xr-text {
+  color: transparent !important;
+  -webkit-text-stroke: 1px var(--cyan);
+  background: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+html[data-source="on"] .xr-copy {
+  color: var(--dim) !important;
+}
+html[data-source="on"] .xr-media {
+  opacity: 0.08 !important;
+  filter: grayscale(1) !important;
+}
+html[data-source="on"] .xr-box {
+  background: transparent !important;
+  border-color: var(--cyan) !important;
+  border-style: dashed !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+html[data-source="on"] .xr-hide {
+  opacity: 0 !important;
+}
+/* Only while switching, so these never fight GSAP's own opacity tweens */
+html.source-anim .xr-text,
+html.source-anim .xr-copy,
+html.source-anim .xr-media,
+html.source-anim .xr-box,
+html.source-anim .xr-hide,
+html.source-anim section,
+html.source-anim footer {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    opacity 0.45s ease,
+    filter 0.45s ease,
+    border-color 0.45s ease,
+    -webkit-text-stroke 0.45s ease;
+}
+
+.tok-k { color: #ff7ab8; }
+.tok-s { color: #9cf2a6; }
+.tok-c { color: #48566b; font-style: italic; }
+.tok-n { color: #ffb86b; }
+.tok-t { color: var(--cyan); }
+.tok-a { color: #8fb4ff; }
+.tok-p { color: #5d6b80; }
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee var(--marquee-dur, 32s) linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: currentColor;
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
