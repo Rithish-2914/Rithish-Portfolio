@@ -3,6 +3,7 @@ import SourceModeProvider from "@/components/core/SourceMode";
 import Preloader from "@/components/core/Preloader";
 import Nav from "@/components/core/Nav";
 import Cursor from "@/components/core/Cursor";
+import NightMode from "@/components/core/NightMode";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Stats from "@/components/sections/Stats";
@@ -21,6 +22,7 @@ export default function Home() {
       <SourceModeProvider>
         <Preloader />
         <Cursor />
+        <NightMode />
         <Nav />
         <main>
           <Hero />

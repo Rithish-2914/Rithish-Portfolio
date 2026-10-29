@@ -41,7 +41,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${archivo.variable} ${jetbrains.variable} antialiased`}>
+    <html lang="en" data-theme="day" className={`${archivo.variable} ${jetbrains.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Apply a saved night theme before first paint, so there's no cream flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="noise">{children}</body>
     </html>
   );

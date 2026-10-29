@@ -34,6 +34,48 @@ html[data-source="on"] {
   color: var(--text);
 }
 
+/* Night mode: deep space. Source Mode keeps its own charcoal palette. */
+html[data-theme="night"]:not([data-source="on"]),
+html[data-theme="night"]:not([data-source="on"]) .theme-ink {
+  --bg: #05070f;
+  --bg-2: #0a0e1c;
+  --surface: #10152a;
+  --line: rgba(200, 215, 255, 0.1);
+  --line-2: rgba(200, 215, 255, 0.22);
+  --text: #eaf0ff;
+  --muted: #9aa3bf;
+  --dim: #5f6884;
+  --cyan: #5fd4ff;
+  --blue: #7b8cff;
+}
+/* Sections go see-through so the galaxy shows behind the whole page */
+html[data-theme="night"] body {
+  background: transparent;
+}
+html[data-theme="night"] :is(section, footer) {
+  background-color: rgb(5 7 15 / 0.15);
+}
+html[data-theme="night"] :is(section, footer).theme-ink {
+  background-color: rgb(10 14 28 / 0.55);
+}
+html[data-theme="night"] .hero-field canvas {
+  opacity: 0;
+}
+.galaxy {
+  transition: opacity 0.6s ease;
+}
+html:not([data-theme="night"]) .galaxy {
+  opacity: 0;
+}
+html[data-source="on"] .galaxy {
+  opacity: 0.3;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-2: var(--bg-2);
